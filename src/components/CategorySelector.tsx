@@ -1,6 +1,6 @@
 
 import React from "react";
-import { Check, Road, Trash2, AlertTriangle, Building, Lightbulb, Power } from "lucide-react";
+import { Check, Map, Trash2, AlertTriangle, Building, Lightbulb, Power } from "lucide-react";
 import { motion } from "framer-motion";
 
 export interface Category {
@@ -14,7 +14,7 @@ export const categories: Category[] = [
   {
     id: "broken-sidewalks",
     name: "Veredas rotas",
-    icon: Road,
+    icon: Map,
     color: "bg-yellow-500"
   },
   {

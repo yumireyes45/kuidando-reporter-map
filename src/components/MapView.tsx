@@ -9,7 +9,7 @@ import { Report } from './ReportMarker';
 import { categories } from './CategorySelector';
 import { Link } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
-import { toast } from '@/components/ui/sonner';
+import { toast } from 'sonner';
 import { createPortal } from 'react-dom';
 import ReportMarker from './ReportMarker';
 

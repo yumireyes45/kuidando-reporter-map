@@ -10,7 +10,7 @@ import Navbar from "@/components/Navbar";
 import CategorySelector from "@/components/CategorySelector";
 import FileUpload from "@/components/FileUpload";
 import MapView from "@/components/MapView";
-import { toast } from "@/components/ui/sonner";
+import { toast } from "sonner";
 import { useAuth } from "@/contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { Loader2, AlertTriangle, CheckCircle } from "lucide-react";
