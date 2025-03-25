@@ -43,7 +43,7 @@ export const categories: Category[] = [
   },
   {
     id: "unstable-poles",
-    name: "Postes inestables",
+    name: "Postes en mal estado",
     icon: Power,
     color: "bg-blue-500"
   }
@@ -54,18 +54,19 @@ interface CategorySelectorProps {
   onSelectCategory: (categoryId: string) => void;
 }
 
-const CategorySelector: React.FC<CategorySelectorProps> = ({
-  selectedCategory,
-  onSelectCategory
-}) => {
+const CategorySelector: React.FC<CategorySelectorProps> = ({ selectedCategory, onSelectCategory }) => {
   return (
     <div className="space-y-4">
-      <h3 className="text-sm font-medium text-muted-foreground">Categoría del problema</h3>
+      <h3 className="text-base font-medium text-muted-foreground">¿Cuál es el problema?</h3>
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
         {categories.map(category => (
           <motion.button
             key={category.id}
-            onClick={() => onSelectCategory(category.id)}
+            onClick={(e) => {
+              e.preventDefault(); // 🔹 Evita que el formulario se resetee accidentalmente
+              console.log("Categoría seleccionada:", category.id);
+              onSelectCategory(category.id); // 🔹 Asegurar que se actualiza correctamente
+            }}
             className={`relative flex flex-col items-center justify-center p-3 rounded-xl border-2 transition-all ${
               selectedCategory === category.id
                 ? "border-primary bg-primary/5"
@@ -91,5 +92,6 @@ const CategorySelector: React.FC<CategorySelectorProps> = ({
     </div>
   );
 };
+
 
 export default CategorySelector;

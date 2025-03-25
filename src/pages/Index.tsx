@@ -47,29 +47,30 @@ const Index = () => {
             transition={{ duration: 0.5 }}
           >
             <div className="inline-flex items-center px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-medium mb-2">
-              <span>Plataforma ciudadana</span>
+              <span>Plataforma ciudadana :)</span>
             </div>
             
             <h1 className="text-4xl md:text-6xl font-bold tracking-tight max-w-3xl">
-              Mejora tu ciudad reportando problemas urbanos
+              Mejora tu ciudad reportando problemas urbanos 😉
             </h1>
             
             <p className="text-lg md:text-xl text-muted-foreground max-w-2xl">
-              Kuidando te permite reportar y visualizar problemas urbanos en tu comunidad para que las autoridades puedan atenderlos.
+              Kuidando te permite reportar y visualizar problemas urbanos en tu ciudad para que las 
+              autoridades puedan atenderlos.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 pt-4">
               <Link to="/map">
-                <Button size="lg" className="gap-2">
-                  <Map className="h-5 w-5" />
-                  <span>Ver mapa</span>
+                <Button size="lg" className="button-custom gap-2">
+                  <Map className="h-5 w-5 text-base" />
+                  <span className="text-base">Ver mapa</span>
                 </Button>
               </Link>
               
               <Link to={isAuthenticated ? "/report" : "/auth"}>
                 <Button size="lg" variant="outline" className="gap-2">
                   <MapPin className="h-5 w-5" />
-                  <span>{isAuthenticated ? "Reportar problema" : "Iniciar sesión"}</span>
+                  <span className="text-base">{isAuthenticated ? "Reportar problema" : "Iniciar sesión"}</span>
                 </Button>
               </Link>
             </div>
@@ -86,9 +87,9 @@ const Index = () => {
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.2 }}
           >
-            <h2 className="text-3xl font-bold mb-4">¿Cómo funciona Kuidando?</h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto">
-              Una plataforma simple pero poderosa para reportar y atender los problemas de infraestructura urbana
+            <h2 className="text-3xl font-bold mb-4">¿Cómo funciona Kuidando? 🤔</h2>
+            <p className="text-muted-foreground max-w-2xl mx-auto text-lg">
+              Una plataforma simple pero poderosa para reportar y atender los problemas urbanos cerca de ti.
             </p>
           </motion.div>
           
@@ -123,9 +124,9 @@ const Index = () => {
           >
             <div className="flex flex-col lg:flex-row items-center justify-between gap-8">
               <div className="space-y-4 text-center lg:text-left">
-                <h2 className="text-3xl font-bold">¿Listo para reportar un problema?</h2>
+                <h2 className="text-3xl font-bold">¿Listo para reportar un problema? 🫡</h2>
                 <p className="text-muted-foreground max-w-xl">
-                  Ayuda a mejorar tu comunidad reportando los problemas que encuentres en las calles, parques y espacios públicos.
+                  Ayuda a mejorar tu ciudad reportando los problemas que encuentres en las calles, parques y espacios públicos.
                 </p>
               </div>
               
@@ -138,7 +139,7 @@ const Index = () => {
                 </Link>
                 
                 <Link to={isAuthenticated ? "/report" : "/auth"}>
-                  <Button size="lg" className="gap-2">
+                  <Button size="lg" className="button-custom gap-2">
                     <ArrowRight className="h-5 w-5" />
                     <span>{isAuthenticated ? "Reportar" : "Comenzar"}</span>
                   </Button>

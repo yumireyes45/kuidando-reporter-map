@@ -1,26 +1,41 @@
-
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Camera, X, Image as ImageIcon } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { toast } from "sonner";
 
 interface FileUploadProps {
   onFileChange: (file: File | null) => void;
-  previewUrl: string | null;
+  previewUrl?: string | null;
 }
 
 const FileUpload: React.FC<FileUploadProps> = ({ onFileChange, previewUrl }) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isDragging, setIsDragging] = useState(false);
+  const [internalPreview, setInternalPreview] = useState<string | null>(previewUrl || null);
+
+  // Sincronizar previewUrl cuando cambie externamente
+  useEffect(() => {
+    setInternalPreview(previewUrl || null);
+  }, [previewUrl]);
+
+  const validateFile = (file: File) => {
+    if (!file.type.startsWith("image/")) {
+      toast.error("El archivo debe ser una imagen (PNG, JPG, JPEG).");
+      return false;
+    }
+    if (file.size > 5 * 1024 * 1024) {
+      toast.error("La imagen no debe superar los 5MB.");
+      return false;
+    }
+    return true;
+  };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0] || null;
-    if (file) {
-      if (file.type.startsWith("image/")) {
-        onFileChange(file);
-      } else {
-        alert("Por favor, sube una imagen.");
-      }
+    if (file && validateFile(file)) {
+      onFileChange(file);
+      setInternalPreview(URL.createObjectURL(file)); // Crear vista previa
     }
   };
 
@@ -32,26 +47,15 @@ const FileUpload: React.FC<FileUploadProps> = ({ onFileChange, previewUrl }) => 
     e.preventDefault();
     setIsDragging(false);
     const file = e.dataTransfer.files?.[0] || null;
-    if (file) {
-      if (file.type.startsWith("image/")) {
-        onFileChange(file);
-      } else {
-        alert("Por favor, sube una imagen.");
-      }
+    if (file && validateFile(file)) {
+      onFileChange(file);
+      setInternalPreview(URL.createObjectURL(file));
     }
-  };
-
-  const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    setIsDragging(true);
-  };
-
-  const handleDragLeave = () => {
-    setIsDragging(false);
   };
 
   const removeImage = () => {
     onFileChange(null);
+    setInternalPreview(null);
     if (fileInputRef.current) {
       fileInputRef.current.value = "";
     }
@@ -60,7 +64,7 @@ const FileUpload: React.FC<FileUploadProps> = ({ onFileChange, previewUrl }) => 
   return (
     <div className="space-y-4">
       <h3 className="text-sm font-medium text-muted-foreground">Foto del problema</h3>
-      
+
       <input
         type="file"
         ref={fileInputRef}
@@ -70,16 +74,17 @@ const FileUpload: React.FC<FileUploadProps> = ({ onFileChange, previewUrl }) => 
       />
 
       <AnimatePresence mode="wait">
-        {!previewUrl ? (
+        {!internalPreview ? (
           <motion.div
-            className={`border-2 border-dashed rounded-xl p-6 text-center ${
-              isDragging 
-                ? "border-primary bg-primary/5" 
-                : "border-border hover:border-primary/50"
-            } transition-colors cursor-pointer`}
+            className={`border-2 border-dashed rounded-xl p-6 text-center transition-colors cursor-pointer ${
+              isDragging ? "border-primary bg-primary/5" : "border-border hover:border-primary/50"
+            }`}
             onDrop={handleDrop}
-            onDragOver={handleDragOver}
-            onDragLeave={handleDragLeave}
+            onDragOver={(e) => {
+              e.preventDefault();
+              setIsDragging(true);
+            }}
+            onDragLeave={() => setIsDragging(false)}
             onClick={handleButtonClick}
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
@@ -100,18 +105,14 @@ const FileUpload: React.FC<FileUploadProps> = ({ onFileChange, previewUrl }) => 
             </div>
           </motion.div>
         ) : (
-          <motion.div 
+          <motion.div
             className="relative rounded-xl overflow-hidden bg-secondary h-64"
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, y: 10 }}
             transition={{ duration: 0.3 }}
           >
-            <img 
-              src={previewUrl} 
-              alt="Vista previa" 
-              className="w-full h-full object-cover"
-            />
+            <img src={internalPreview} alt="Vista previa" className="w-full h-full object-cover" />
             <Button
               type="button"
               variant="destructive"

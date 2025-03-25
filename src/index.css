@@ -34,6 +34,10 @@
     --ring: 210 100% 50%;
 
     --radius: 0.75rem;
+    
+    /* Añadir nueva variable para el color amarillo */
+    --custom-button: 40 100% 61%; /* Este es el color #FFB936 en formato HSL */
+    --custom-button-foreground: 0 0% 0%; /* Negro para el texto */
 
     --sidebar-background: 0 0% 100%;
     --sidebar-foreground: 240 5.3% 26.1%;
@@ -60,6 +64,10 @@
 
     --secondary: 215 27% 17%;
     --secondary-foreground: 0 0% 100%;
+
+    /* Mantener el mismo color en modo oscuro */
+    --custom-button: 40 100% 61%;
+    --custom-button-foreground: 0 0% 0%;
 
     --muted: 215 27% 17%;
     --muted-foreground: 220 10% 70%;
@@ -153,6 +161,21 @@
   .map-card {
     @apply bg-background/95 backdrop-blur-md shadow-lg rounded-2xl p-4 border border-border;
   }
+
+  /* Actualizar los estilos del botón */
+  .btn-primary {
+    @apply bg-[#FFB936] text-black hover:bg-[#E5A62F] transition-colors duration-200 font-medium;
+  }
+
+  /* Si estás usando el componente Button de shadcn/ui, añade estos estilos */
+  .button-custom {
+    background-color: hsl(var(--custom-button)) !important;
+    color: hsl(var(--custom-button-foreground)) !important;
+  }
+
+  .button-custom:hover {
+    background-color: #fcaf20 !important; /* Un tono más oscuro para hover */
+  }
 }
 
 /* Font import */
@@ -162,4 +185,25 @@
   :root {
     font-family: 'Inter', system-ui, sans-serif;
   }
+}
+
+/* Estilos para el autocompletado de Google Maps */
+.pac-container {
+  @apply bg-white rounded-lg border border-gray-200 shadow-lg mt-1 z-[9999];
+}
+
+.pac-item {
+  @apply p-2 cursor-pointer hover:bg-gray-50 transition-colors;
+}
+
+.pac-item-query {
+  @apply text-sm text-gray-900;
+}
+
+.pac-matched {
+  @apply font-medium;
+}
+
+.pac-icon {
+  @apply mr-2;
 }

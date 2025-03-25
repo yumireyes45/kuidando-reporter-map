@@ -46,7 +46,6 @@ export const useGeolocation = (options?: PositionOptions) => {
         error: error.message,
         loading: false,
       }));
-      toast.error(`Error de ubicación: ${error.message}`);
     };
 
     const defaultOptions: PositionOptions = {
@@ -61,13 +60,6 @@ export const useGeolocation = (options?: PositionOptions) => {
       options || defaultOptions
     );
 
-    const watchId = navigator.geolocation.watchPosition(
-      onSuccess,
-      onError,
-      options || defaultOptions
-    );
-
-    return () => navigator.geolocation.clearWatch(watchId);
   }, [options]);
 
   return state;

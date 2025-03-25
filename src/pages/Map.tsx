@@ -23,11 +23,11 @@ const Map = () => {
       >
         <div className="container max-w-6xl mx-auto px-4 py-4 md:px-6 md:py-6 h-[calc(100vh-4rem)] flex flex-col">
           <div className="flex items-center justify-between mb-4">
-            <h1 className="text-2xl font-bold">Mapa de problemas</h1>
+          <p className="text-2xl text-gray-500 mb-3"><span className="!text-2xl font-bold mb-4 !text-black">Mapa de problemas</span> 😡 (Mira abajo)</p>
             
             {!isAuthenticated ? (
               <Link to="/auth">
-                <Button className="gap-2" size="sm">
+                <Button className="button-custom gap-2" size="sm">
                   <MapPin className="h-4 w-4" />
                   <span>Iniciar sesión para reportar</span>
                 </Button>
@@ -46,7 +46,7 @@ const Map = () => {
             <MapView />
           </div>
           
-          <p className="text-xs text-muted-foreground text-center mt-3">
+          <p className="text-sm text-red-700 font-bold text-center mt-3 ">
             Haz clic en los marcadores para ver los detalles de cada reporte
           </p>
         </div>

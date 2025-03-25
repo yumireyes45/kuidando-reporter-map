@@ -31,7 +31,7 @@ export const Navbar: React.FC = () => {
         scrolled ? "bg-background/90 backdrop-blur-lg shadow-sm" : "bg-background"
       } transition-all duration-300`}
     >
-      <nav className="container mx-auto px-4 sm:px-6 lg:px-8">
+      <nav className="container mx-auto px-4 sm:px-6 lg:px-8 mt-2 md:mt-2">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <Link 
@@ -39,19 +39,26 @@ export const Navbar: React.FC = () => {
             className="flex items-center space-x-2" 
             onClick={closeMenu}
           >
-            <MapPin className="h-6 w-6 text-primary" />
-            <span className="font-bold text-xl">Kuidando</span>
+            <img
+              src="/imagenes/loguito.webp"  // Reemplaza con la ruta a tu logo
+              alt="Logo Kuidando"
+              className="h-10 w-auto mr-2"
+
+            />
           </Link>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-6">
             <Link 
               to="/map" 
-              className={`transition-colors hover:text-primary ${
-                location.pathname === "/map" ? "text-primary font-medium" : ""
+              className={`transition-colors hover:text-primary font-bold ${
+                location.pathname === "/map" ? "text-primary font-bold " : ""
               }`}
             >
-              Mapa
+              <div className="flex items-center justify-center gap-2">
+                  <MapIcon className="w-5 h-5" />
+                  <span>Mapa</span>
+                </div>
             </Link>
             
             {isAuthenticated ? (
@@ -62,14 +69,14 @@ export const Navbar: React.FC = () => {
                 </Button>
                 <div className="flex items-center space-x-2 text-sm">
                   <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center text-primary">
-                    {user?.name.charAt(0).toUpperCase()}
+                    {user?.email.charAt(0).toUpperCase()}
                   </div>
-                  <span className="font-medium">{user?.name}</span>
+                  <span className="font-medium">{user?.email}</span>
                 </div>
               </>
             ) : (
               <Link to="/auth">
-                <Button variant="default" size="sm" className="flex items-center gap-2">
+                <Button variant="default" size="sm" className="button-custom flex items-center gap-2">
                   <User className="w-4 h-4" />
                   <span>Iniciar sesión</span>
                 </Button>
@@ -106,7 +113,7 @@ export const Navbar: React.FC = () => {
                 className="block py-2 text-center rounded-md hover:bg-secondary transition-colors"
                 onClick={closeMenu}
               >
-                <div className="flex items-center justify-center gap-2">
+                <div className="flex items-center justify-center gap-2 font-bold">
                   <MapIcon className="w-5 h-5" />
                   <span>Mapa</span>
                 </div>
@@ -116,9 +123,9 @@ export const Navbar: React.FC = () => {
                 <>
                   <div className="flex items-center justify-center space-x-3 py-2">
                     <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center text-primary">
-                      {user?.name.charAt(0).toUpperCase()}
+                      {user?.email.charAt(0).toUpperCase()}
                     </div>
-                    <span className="font-medium">{user?.name}</span>
+                    <span className="font-medium">{user?.email}</span>
                   </div>
                   <Button 
                     variant="outline" 
@@ -138,7 +145,7 @@ export const Navbar: React.FC = () => {
                   className="block" 
                   onClick={closeMenu}
                 >
-                  <Button variant="default" className="w-full justify-center flex items-center gap-2">
+                  <Button variant="default" className="button-custom w-full justify-center flex items-center gap-2">
                     <User className="w-4 h-4" />
                     <span>Iniciar sesión</span>
                   </Button>

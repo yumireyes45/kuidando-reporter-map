@@ -1,4 +1,3 @@
-
 import React from "react";
 import { categories } from "./CategorySelector";
 import { User, Clock, ArrowUp } from "lucide-react";
@@ -12,14 +11,11 @@ export interface Report {
   description: string;
   latitude: number;
   longitude: number;
-  categoryId: string;
+  categoryid: string;
   severity: number;
-  imageUrl: string;
-  createdBy: {
-    id: string;
-    name: string;
-  };
-  createdAt: string;
+  imageurl: string | null;
+  createdby: string; // Ahora solo es el ID del usuario
+  createdat: string;
   supporters: number;
 }
 
@@ -36,8 +32,8 @@ const ReportMarker: React.FC<ReportMarkerProps> = ({
   currentUserId,
   isDetailed = false
 }) => {
-  const category = categories.find(c => c.id === report.categoryId);
-  const date = new Date(report.createdAt);
+  const category = categories.find(c => c.id === report.categoryid);
+  const date = new Date(report.createdat);
   const formattedDate = date.toLocaleDateString('es-ES', {
     day: '2-digit',
     month: 'short',
@@ -65,7 +61,6 @@ const ReportMarker: React.FC<ReportMarkerProps> = ({
   };
 
   if (!isDetailed) {
-    // Simplified marker for map display
     return (
       <motion.div 
         className="map-card max-w-xs"
@@ -101,7 +96,6 @@ const ReportMarker: React.FC<ReportMarkerProps> = ({
     );
   }
 
-  // Detailed view for popup or sidebar display
   return (
     <motion.div 
       className="map-card max-w-sm"
@@ -129,10 +123,10 @@ const ReportMarker: React.FC<ReportMarkerProps> = ({
           </Badge>
         </div>
         
-        {report.imageUrl && (
+        {report.imageurl && (
           <div className="rounded-lg overflow-hidden h-32 bg-secondary">
             <img 
-              src={report.imageUrl} 
+              src={report.imageurl} 
               alt={report.title} 
               className="w-full h-full object-cover"
             />
@@ -144,7 +138,7 @@ const ReportMarker: React.FC<ReportMarkerProps> = ({
         <div className="flex items-center justify-between pt-2 border-t border-border">
           <div className="flex items-center space-x-1.5 text-xs text-muted-foreground">
             <User className="h-3.5 w-3.5" />
-            <span>{report.createdBy.name}</span>
+            <span>ID usuario: {report.createdby}</span>
           </div>
           
           <div className="flex items-center space-x-1.5 text-xs text-muted-foreground">

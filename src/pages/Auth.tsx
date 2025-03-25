@@ -1,21 +1,22 @@
-
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Eye, EyeOff, Loader2, MapPin } from "lucide-react";
+import { Eye, EyeOff, Loader2, MapPin, ArrowLeft } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import Navbar from "@/components/Navbar";
+import { toast } from "sonner";
+
 
 const Auth = () => {
   const [activeTab, setActiveTab] = useState("login");
   const [showPassword, setShowPassword] = useState(false);
   const [loginForm, setLoginForm] = useState({ email: "", password: "" });
-  const [registerForm, setRegisterForm] = useState({ name: "", email: "", password: "", confirmPassword: "" });
+  const [registerForm, setRegisterForm] = useState({ email: "", password: "", confirmPassword: "" });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const { login, register, loading } = useAuth();
   const navigate = useNavigate();
@@ -39,11 +40,7 @@ const Auth = () => {
   
   const validateRegister = () => {
     const newErrors: Record<string, string> = {};
-    
-    if (!registerForm.name) {
-      newErrors.registerName = "El nombre es obligatorio";
-    }
-    
+
     if (!registerForm.email) {
       newErrors.registerEmail = "El correo electrónico es obligatorio";
     } else if (!/\S+@\S+\.\S+/.test(registerForm.email)) {
@@ -66,23 +63,54 @@ const Auth = () => {
 
   const handleLoginSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
     if (validateLogin()) {
-      await login(loginForm.email, loginForm.password);
-      navigate('/map');
+
+      try {
+        await login(loginForm.email, loginForm.password);
+        navigate("/map"); // Solo navegamos si el login fue exitoso
+      } catch (error: any) {
+        console.error("Error en el inicio de sesión:", error);
+        // El toast de error ya se muestra en el AuthContext
+      }
     }
+    
   };
   
   const handleRegisterSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (validateRegister()) {
-      await register(registerForm.name, registerForm.email, registerForm.password);
-      navigate('/map');
+    console.log("Registro iniciado..."); // 🔍 Ver si se ejecuta
+  
+    if (!validateRegister()) {
+      console.error("⚠️ Error en la validación del formulario:", errors);
+      return;
+    }
+  
+    try {
+      console.log("Datos enviados a Supabase:", registerForm.email, registerForm.password);
+      await register(registerForm.email, registerForm.password);
+      toast.success("¡Registro exitoso!");
+      navigate("/map");
+    } catch (error: any) {
+      toast.error("Error al registrarse: " + error.message);
+      console.error("Error en el registro:", error);
     }
   };
+  
+  
 
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
+
+      {/* Añadir el botón de volver */}
+      <button
+        onClick={() => navigate('/')}
+        className="absolute top-20 left-4 p-2 rounded-full hover:bg-gray-100 transition-colors"
+        aria-label="Volver al inicio"
+      >
+        <ArrowLeft className="h-6 w-6 text-gray-600" />
+      </button>
       
       <motion.div 
         className="flex-1 flex items-center justify-center px-4 py-20"
@@ -121,62 +149,27 @@ const Auth = () => {
                         onChange={(e) => setLoginForm({ ...loginForm, email: e.target.value })}
                         className={errors.loginEmail ? "border-red-500" : ""}
                       />
-                      {errors.loginEmail && (
-                        <p className="text-red-500 text-xs">{errors.loginEmail}</p>
-                      )}
+                      {errors.loginEmail && <p className="text-red-500 text-xs">{errors.loginEmail}</p>}
                     </div>
                     
                     <div className="space-y-2">
                       <Label htmlFor="password">Contraseña</Label>
-                      <div className="relative">
-                        <Input
-                          id="password"
-                          type={showPassword ? "text" : "password"}
-                          placeholder="••••••••"
-                          value={loginForm.password}
-                          onChange={(e) => setLoginForm({ ...loginForm, password: e.target.value })}
-                          className={errors.loginPassword ? "border-red-500 pr-10" : "pr-10"}
-                        />
-                        <button
-                          type="button"
-                          className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground"
-                          onClick={() => setShowPassword(!showPassword)}
-                        >
-                          {showPassword ? (
-                            <EyeOff className="h-4 w-4" />
-                          ) : (
-                            <Eye className="h-4 w-4" />
-                          )}
-                        </button>
-                      </div>
-                      {errors.loginPassword && (
-                        <p className="text-red-500 text-xs">{errors.loginPassword}</p>
-                      )}
+                      <Input
+                        id="password"
+                        type={showPassword ? "text" : "password"}
+                        placeholder="••••••••"
+                        value={loginForm.password}
+                        onChange={(e) => setLoginForm({ ...loginForm, password: e.target.value })}
+                        className={errors.loginPassword ? "border-red-500" : ""}
+                      />
+                      {errors.loginPassword && <p className="text-red-500 text-xs">{errors.loginPassword}</p>}
                     </div>
                   </CardContent>
                   
                   <CardFooter className="flex flex-col space-y-4">
                     <Button type="submit" className="w-full" disabled={loading}>
-                      {loading ? (
-                        <>
-                          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                          Cargando...
-                        </>
-                      ) : (
-                        "Iniciar sesión"
-                      )}
+                      {loading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : "Iniciar sesión"}
                     </Button>
-                    
-                    <p className="text-xs text-center text-muted-foreground">
-                      ¿No tienes una cuenta?{" "}
-                      <button
-                        type="button"
-                        className="text-primary hover:underline"
-                        onClick={() => setActiveTab("register")}
-                      >
-                        Regístrate
-                      </button>
-                    </p>
                   </CardFooter>
                 </form>
               </TabsContent>
@@ -184,21 +177,6 @@ const Auth = () => {
               <TabsContent value="register">
                 <form onSubmit={handleRegisterSubmit}>
                   <CardContent className="space-y-4 pt-6">
-                    <div className="space-y-2">
-                      <Label htmlFor="name">Nombre completo</Label>
-                      <Input
-                        id="name"
-                        type="text"
-                        placeholder="Juan Pérez"
-                        value={registerForm.name}
-                        onChange={(e) => setRegisterForm({ ...registerForm, name: e.target.value })}
-                        className={errors.registerName ? "border-red-500" : ""}
-                      />
-                      {errors.registerName && (
-                        <p className="text-red-500 text-xs">{errors.registerName}</p>
-                      )}
-                    </div>
-                    
                     <div className="space-y-2">
                       <Label htmlFor="register-email">Correo electrónico</Label>
                       <Input
@@ -209,39 +187,22 @@ const Auth = () => {
                         onChange={(e) => setRegisterForm({ ...registerForm, email: e.target.value })}
                         className={errors.registerEmail ? "border-red-500" : ""}
                       />
-                      {errors.registerEmail && (
-                        <p className="text-red-500 text-xs">{errors.registerEmail}</p>
-                      )}
+                      {errors.registerEmail && <p className="text-red-500 text-xs">{errors.registerEmail}</p>}
                     </div>
-                    
+
                     <div className="space-y-2">
                       <Label htmlFor="register-password">Contraseña</Label>
-                      <div className="relative">
-                        <Input
-                          id="register-password"
-                          type={showPassword ? "text" : "password"}
-                          placeholder="••••••••"
-                          value={registerForm.password}
-                          onChange={(e) => setRegisterForm({ ...registerForm, password: e.target.value })}
-                          className={errors.registerPassword ? "border-red-500 pr-10" : "pr-10"}
-                        />
-                        <button
-                          type="button"
-                          className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground"
-                          onClick={() => setShowPassword(!showPassword)}
-                        >
-                          {showPassword ? (
-                            <EyeOff className="h-4 w-4" />
-                          ) : (
-                            <Eye className="h-4 w-4" />
-                          )}
-                        </button>
-                      </div>
-                      {errors.registerPassword && (
-                        <p className="text-red-500 text-xs">{errors.registerPassword}</p>
-                      )}
+                      <Input
+                        id="register-password"
+                        type={showPassword ? "text" : "password"}
+                        placeholder="••••••••"
+                        value={registerForm.password}
+                        onChange={(e) => setRegisterForm({ ...registerForm, password: e.target.value })}
+                        className={errors.registerPassword ? "border-red-500" : ""}
+                      />
+                      {errors.registerPassword && <p className="text-red-500 text-xs">{errors.registerPassword}</p>}
                     </div>
-                    
+
                     <div className="space-y-2">
                       <Label htmlFor="confirm-password">Confirmar contraseña</Label>
                       <Input
@@ -256,30 +217,13 @@ const Auth = () => {
                         <p className="text-red-500 text-xs">{errors.registerConfirmPassword}</p>
                       )}
                     </div>
+
                   </CardContent>
                   
                   <CardFooter className="flex flex-col space-y-4">
                     <Button type="submit" className="w-full" disabled={loading}>
-                      {loading ? (
-                        <>
-                          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                          Cargando...
-                        </>
-                      ) : (
-                        "Registrarse"
-                      )}
+                      {loading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : "Registrarse"}
                     </Button>
-                    
-                    <p className="text-xs text-center text-muted-foreground">
-                      ¿Ya tienes una cuenta?{" "}
-                      <button
-                        type="button"
-                        className="text-primary hover:underline"
-                        onClick={() => setActiveTab("login")}
-                      >
-                        Inicia sesión
-                      </button>
-                    </p>
                   </CardFooter>
                 </form>
               </TabsContent>
