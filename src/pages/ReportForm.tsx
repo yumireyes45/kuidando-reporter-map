@@ -10,7 +10,7 @@ import MapView from "@/components/MapView";
 import { toast } from "sonner";
 import { useAuth } from "@/contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
-import { Loader2 } from "lucide-react";
+import { Loader2, ArrowLeft } from "lucide-react";
 import { motion } from "framer-motion";
 import { Slider } from "@/components/ui/slider"; // Adjust the path based on your project structure
 import { supabase } from "@/supabaseClient";
@@ -203,7 +203,25 @@ const ReportForm = () => {
       <Navbar />
       <motion.div className="flex-1 pt-16 pb-10" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }}>
         <div className="container max-w-5xl mx-auto px-4 py-6 md:px-6">
-            <p className="text-xl text-gray-500 mb-3"><span className="text-2xl font-bold mb-4 !text-black">Reporta un problema 🫡</span> Tranqui, será 100% anónimo :)</p>
+
+        <div className="flex items-center gap-4 ">
+            <Button
+              variant="ghost"
+              size="icon"
+              className="bg-background/50 hover:bg-primary"
+              onClick={() => navigate('/map')}
+            >
+              <ArrowLeft className="h-8 w-8" />
+              <span className="sr-only">Volver al mapa</span>
+            </Button>
+            </div>
+
+            <p className="text-xl text-gray-500 mb-3 text-center">
+              <span className="text-2xl font-bold mb-4 !text-black">Reporta un problema 🫡
+                </span> Tranqui, será 100% anónimo :)
+            </p>
+
+            
 
           <form onSubmit={handleSubmit}>
 
@@ -248,7 +266,6 @@ const ReportForm = () => {
             </Card>
 
             <Card className="p-6 shadow-sm mb-2">
-
               <h3 className="text-base font-medium text-muted-foreground mb-2">
                 Ubicación del Problema (Clic en la ubicación exacta)
               </h3>

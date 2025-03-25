@@ -28,10 +28,17 @@ interface MapViewProps {
   disableInteractions?: boolean; // Added property
   showReportDetails?: boolean; // Añadir esta nueva prop
   onLoad?: () => void;  // Agregar esta prop
+  hideOtherMarkers?: boolean;
+  initialCenter?: {
+    lat: number;
+    lng: number;
+  };
+  zoom?: number;
 }
 
 const MapView: React.FC<MapViewProps> = ({ centerOnUser = true, onLocationSelect, selectedLocation, 
-  disableInteractions = false, showReportDetails = true, onLoad}) => {
+  disableInteractions = false, showReportDetails = true, onLoad, hideOtherMarkers = false, initialCenter,
+  zoom=14}) => {
   const { isLoaded } = useLoadScript({ googleMapsApiKey: GOOGLE_MAPS_API_KEY });
   const location = useGeolocation();
   const [reports, setReports] = useState([]);
@@ -75,8 +82,13 @@ const mapIcon = React.useMemo(() => isLoaded ? {
     if (centerOnUser && location.latitude && location.longitude && !locationError) {
       return { lat: location.latitude, lng: location.longitude };
     }
+    if (initialCenter) return initialCenter;
+    if (selectedLocation) return { lat: selectedLocation[0], lng: selectedLocation[1] };
+    if (location.latitude && location.longitude) {
+      return { lat: location.latitude, lng: location.longitude };
+    }
     return defaultCenter;
-  }, [selectedLocation, centerOnUser, location.latitude, location.longitude, locationError, userHasPanned]);
+  }, [selectedLocation, centerOnUser, location.latitude, location.longitude, locationError, userHasPanned, initialCenter, selectedLocation, location]);
   
 
   
@@ -150,7 +162,7 @@ const mapIcon = React.useMemo(() => isLoaded ? {
         }}
       >
 
-        {reports.map((report) => (
+        {!hideOtherMarkers && reports.map((report) => (
           <Marker
             key={report.id}
             position={{ lat: report.latitude, lng: report.longitude }}
@@ -165,7 +177,7 @@ const mapIcon = React.useMemo(() => isLoaded ? {
             position={{ lat: selectedLocation[0], lng: selectedLocation[1] }}
             animation={google.maps.Animation.DROP} // Añade una animación al marcador
           >
-            </Marker>
+          </Marker>
         )}
       </GoogleMap>
 

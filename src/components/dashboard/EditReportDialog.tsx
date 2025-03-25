@@ -15,12 +15,35 @@ import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 import CategorySelector from "@/components/CategorySelector";
 import MapView from "@/components/MapView";
+import { Card } from "@/components/ui/card";
 
 interface EditReportDialogProps {
   report: any;
   onClose: () => void;
   onUpdate: () => void;
 }
+
+interface SingleReportMapProps {
+  location: [number, number];
+  onLocationSelect: (lat: number, lng: number) => void;
+}
+
+const SingleReportMap: React.FC<SingleReportMapProps> = ({ location, onLocationSelect }) => {
+  return (
+    <MapView
+      selectedLocation={location}
+      onLocationSelect={onLocationSelect}
+      centerOnUser={false}
+      showReportDetails={false}
+      initialCenter={{
+        lat: location[0],
+        lng: location[1]
+      }}
+      zoom={15}
+      hideOtherMarkers={true} // Nueva prop para ocultar otros marcadores
+    />
+  );
+};
 
 export const EditReportDialog: React.FC<EditReportDialogProps> = ({
     report,
@@ -108,30 +131,34 @@ export const EditReportDialog: React.FC<EditReportDialogProps> = ({
   
     return (
         <Dialog open={true} onOpenChange={onClose}>
-          <DialogContent className="max-w-3xl h-[85vh] p-0">
+          <DialogContent className="max-w-3xl h-[85vh] p-0 rounded-lg">
             <DialogHeader className="px-6 pt-6">
-              <DialogTitle>Editar Reporte</DialogTitle>
+              <DialogTitle><h1 className="text-2xl">Editar Reporte</h1></DialogTitle>
             </DialogHeader>
     
-            <div className="px-6 pb-6 overflow-y-auto h-[calc(85vh-120px)]">
+            <div className="px-6 pb-6 overflow-y-auto h-[calc(85vh-120px)] ">
               <div className="space-y-4">
-                <CategorySelector
+                <Card className="p-6 shadow-sm mb-2">
+                  <CategorySelector
                   selectedCategory={category}
                   onSelectCategory={setCategory}
-                />
-    
-                <div className="space-y-2">
-                  <Label>Descripción</Label>
+                  />
+                </Card>
+
+                <Card className="p-6 shadow-sm mb-2">
+                  <h3 className="text-base font-medium text-muted-foreground mb-2">Descripción del Problema</h3>
                   <Textarea
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
                     placeholder="Descripción detallada del problema"
                     className="min-h-[100px]"
                   />
-                </div>
+                </Card>
     
-                <div className="space-y-2">
-                  <Label>Nivel de Severidad ({severity[0]})</Label>
+                <Card className="p-6 shadow-sm mb-2">
+                  <h3 className="text-base font-medium text-muted-foreground mb-2">
+                    Nivel de Severidad
+                  </h3>
                   <Slider
                     value={severity}
                     onValueChange={setSeverity}
@@ -140,23 +167,25 @@ export const EditReportDialog: React.FC<EditReportDialogProps> = ({
                     step={1}
                     className="w-full"
                   />
-                </div>
+                </Card>
     
-                <div className="space-y-2">
-                  <Label>Ubicación</Label>
-                  <div className="h-[250px] rounded-md overflow-hidden border">
-                    <MapView
-                      selectedLocation={location}
-                      onLocationSelect={(lat, lng) => setLocation([lat, lng])}
-                      centerOnUser={false}
-                      showReportDetails={false}
-                    />
-                  </div>
-                </div>
+                <Card className="p-6 shadow-sm mb-2">
+              <h3 className="text-base font-medium text-muted-foreground mb-2">
+                Ubicación Actual del Problema (Clic para actualizar)
+              </h3>
+              <div className="h-[250px] rounded-md overflow-hidden border">
+                <SingleReportMap
+                  location={location}
+                  onLocationSelect={(lat, lng) => setLocation([lat, lng])}
+                />
+              </div>
+            </Card>
     
-                <div className="space-y-2">
-                  <Label>Imagen</Label>
-                  <Input
+                <Card className="p-6 shadow-sm mb-2">
+                  <h3 className="text-base font-medium text-muted-foreground mb-2">
+                      Subir Imagen (Recomendación: en formato horizontal)
+                  </h3>
+                  <Input className="mb-4"
                     type="file"
                     accept="image/*"
                     onChange={handleFileChange}
@@ -166,11 +195,11 @@ export const EditReportDialog: React.FC<EditReportDialogProps> = ({
                       <img 
                         src={imageUrl} 
                         alt="Vista previa" 
-                        className="w-full h-32 object-cover" 
+                        className="w-full h-36 object-cover" 
                       />
                     </div>
                   )}
-                </div>
+                </Card>
     
                 <Button 
                   onClick={handleSubmit} 

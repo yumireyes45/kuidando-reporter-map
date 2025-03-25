@@ -17,6 +17,10 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
+import { useReverseGeocode } from '@/hooks/useReverseGeocode';
+import { useLoadScript } from "@react-google-maps/api";
+
+
 
 export const AllReports = () => {
   const [reports, setReports] = useState<any[]>([]);
@@ -24,6 +28,13 @@ export const AllReports = () => {
   const [selectedReport, setSelectedReport] = useState<any>(null);
   const { user } = useAuth();
   const [reportToDelete, setReportToDelete] = useState<any>(null);
+  const { locationsDetails } = useReverseGeocode(reports);
+  
+
+  const { isLoaded } = useLoadScript({
+          googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAPS_API_KEY
+      });
+
 
   useEffect(() => {
     fetchAllReports();
@@ -106,6 +117,17 @@ export const AllReports = () => {
             <p className="text-sm text-muted-foreground">
               Apoyos: {report.supporters}
             </p>
+
+            {locationsDetails[report.id] ? (
+                            <p className="text-sm text-muted-foreground mb-2">
+                                📍 {locationsDetails[report.id].district || locationsDetails[report.id].city || 'Ubicación no disponible'}
+                                {locationsDetails[report.id].district && locationsDetails[report.id].city && `, ${locationsDetails[report.id].city}`}
+                            </p>
+                        ) : (
+                            <p className="text-sm text-muted-foreground mb-2">
+                                📍 Obteniendo ubicación...
+                            </p>
+                        )}
 
           </div>
           {user?.id === report.createdby && (

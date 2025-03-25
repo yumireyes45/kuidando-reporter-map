@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { categories } from "./CategorySelector";
-import { MapPin, X, ArrowUp, Angry, SearchIcon } from "lucide-react";
+import { MapPin, X, ArrowUp, Angry, SearchIcon, Calendar1, Megaphone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
@@ -9,6 +9,8 @@ import { supabase } from "@/supabaseClient";
 import { toast } from "sonner";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { Loader2 } from "lucide-react";
+import { useReverseGeocode } from '@/hooks/useReverseGeocode';
+import { useLoadScript } from "@react-google-maps/api";
 
 
 const ReportDetails = ({ reports, onSupport, currentUserId, onClose }) => {
@@ -19,6 +21,12 @@ const ReportDetails = ({ reports, onSupport, currentUserId, onClose }) => {
   const [hasSupported, setHasSupported] = useState(false);
   const [isImageOpen, setIsImageOpen] = useState(false);
   const [isImageLoading, setIsImageLoading] = useState(true);
+
+
+  const { locationsDetails } = useReverseGeocode([reports]); // Pass reports as an array
+  const { isLoaded } = useLoadScript({
+    googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAPS_API_KEY
+  });
   
 
   useEffect(() => {
@@ -166,14 +174,30 @@ const ReportDetails = ({ reports, onSupport, currentUserId, onClose }) => {
           <h1 className="text-xl sm:text-2xl font-bold mt-2">
           {category?.name || "Problema reportado"}
           </h1>
-          <p className="text-muted-foreground mt-2 text-sm sm:text-base">
+          <p className="text-muted-foreground mt-2 text-sm sm:text-base flex items-center gap-2">
+          <Megaphone className="h-4 w-4" />
             {reports.description}
           </p>
 
+          {/* Add location details after description */}
+          {locationsDetails[reports.id] ? (
+            <p className="text-muted-foreground mt-2 text-sm sm:text-base flex items-center gap-2">
+              <MapPin className="h-4 w-4" />
+              {locationsDetails[reports.id].district || locationsDetails[reports.id].city || 'Ubicación no disponible'}
+              {locationsDetails[reports.id].district && locationsDetails[reports.id].city && `, ${locationsDetails[reports.id].city}`}
+            </p>
+          ) : (
+            <p className="text-muted-foreground mt-2 text-sm sm:text-base flex items-center gap-2">
+              <MapPin className="h-4 w-4" />
+              <span>Obteniendo ubicación...</span>
+            </p>
+          )}
+
           {/* Metadata del reporte */}
-          <div className="flex items-center justify-between py-4 flex-wrap gap-2">
+          <div className="flex items-center justify-between mb-2 flex-wrap gap-2">
             <div className="flex items-center gap-2">
-              <span className="text-xs sm:text-sm text-muted-foreground">
+            <Calendar1 className="mt-2 h-4 w-4 text-muted-foreground" />
+              <span className="text-muted-foreground mt-2 text-sm sm:text-base">
                 Reportado el {new Date(reports.createdat).toLocaleDateString()}
               </span>
             </div>

@@ -26,6 +26,19 @@ export const Navbar: React.FC = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+
+  const handleLogoClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    closeMenu();
+    if (location.pathname === '/') {
+      // If we're already on index, just refresh
+      window.location.reload();
+    } else {
+      // If we're on another page, navigate to index and refresh
+      window.location.href = '/';
+    }
+  };
+
   return (
     <header 
       className={`fixed top-0 left-0 right-0 z-50 ${
@@ -48,6 +61,21 @@ export const Navbar: React.FC = () => {
             />
           </Link>
 
+          {/* Updated Logo click handler 
+          <a 
+            href="/"
+            className="flex items-center space-x-2" 
+            onClick={handleLogoClick}
+          >
+            <img
+              src="/imagenes/loguito.webp"
+              alt="Logo Kuidando"
+              className="h-10 w-auto mr-2"
+            />
+          </a>
+          */}
+
+          
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-6">
             <Link 
