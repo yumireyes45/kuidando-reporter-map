@@ -54,9 +54,8 @@ const Index = () => {
               Mejora tu ciudad reportando problemas urbanos 😉
             </h1>
             
-            <p className="text-lg md:text-xl text-muted-foreground max-w-2xl">
-              Kuidando te permite reportar y visualizar problemas urbanos en tu ciudad para que las 
-              autoridades puedan atenderlos.
+            <p className="text-2xl  text-muted-foreground ">
+              100% anónimo y gratuito.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 pt-4">
@@ -89,7 +88,8 @@ const Index = () => {
           >
             <h2 className="text-3xl font-bold mb-4">¿Cómo funciona Kuidando? 🤔</h2>
             <p className="text-muted-foreground max-w-2xl mx-auto text-lg">
-              Una plataforma simple pero poderosa para reportar y atender los problemas urbanos cerca de ti.
+            Kuidando te permite reportar y visualizar problemas urbanos en tu ciudad para que las 
+            autoridades puedan atenderlos.
             </p>
           </motion.div>
           
@@ -126,7 +126,7 @@ const Index = () => {
               <div className="space-y-4 text-center lg:text-left">
                 <h2 className="text-3xl font-bold">¿Listo para reportar un problema? 🫡</h2>
                 <p className="text-muted-foreground max-w-xl">
-                  Ayuda a mejorar tu ciudad reportando los problemas que encuentres en las calles, parques y espacios públicos.
+                  Recuerda que todo es 100% anónimo y gratuito. ¡Ayúdanos a mejorar tu ciudad!
                 </p>
               </div>
               
@@ -158,7 +158,7 @@ const Index = () => {
             <span className="font-semibold text-lg">Kuidando</span>
           </div>
           
-          <div className="text-sm text-muted-foreground">
+          <div className="text-sm text-muted-foreground text-center w-full md:w-auto">
             © {new Date().getFullYear()} Kuidando. Todos los derechos reservados.
           </div>
         </div>

@@ -59,9 +59,9 @@ const MapView: React.FC<MapViewProps> = ({ centerOnUser = true, onLocationSelect
 
 // Mover la definición del mapIcon dentro del componente
 const mapIcon = React.useMemo(() => isLoaded ? {
-  url: "https://jbekmeyktgqumyyrjjdh.supabase.co/storage/v1/object/public/report_images//marker-angry.webp",
-  scaledSize: new window.google.maps.Size(34, 42),
-  anchor: new window.google.maps.Point(16, 32)
+  url: "https://jbekmeyktgqumyyrjjdh.supabase.co/storage/v1/object/public/report_images//puntito-ubi.webp",
+  scaledSize: new window.google.maps.Size(48, 48),
+  anchor: new window.google.maps.Point(27, 42)
 } : null, [isLoaded]);
 
   // Actualizar el mapCenter para manejar mejor los casos de error

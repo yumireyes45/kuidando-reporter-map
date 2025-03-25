@@ -202,7 +202,7 @@ const ReportDetails = ({ reports, onSupport, currentUserId, onClose }) => {
             >
               <ArrowUp className="h-4 w-4 sm:h-5 sm:w-5" />
               <span>
-                {hasSupported ? "Ya estás apoyando" : "Sumarse a este reporte"} ({supportersCount})
+                {hasSupported ? "Ya estás apoyando 😎" : "Unirme a este reporte (100% anónimo 🤫)"}
               </span>
             </Button>
           </div>

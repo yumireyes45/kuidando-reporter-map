@@ -22,8 +22,9 @@ const Map = () => {
         transition={{ duration: 0.5 }}
       >
         <div className="container max-w-6xl mx-auto px-4 py-4 md:px-6 md:py-6 h-[calc(100vh-4rem)] flex flex-col">
-          <div className="flex items-center justify-between mb-4">
-          <p className="text-2xl text-gray-500 mb-3"><span className="!text-2xl font-bold mb-4 !text-black">Mapa de problemas</span> 😡 (Mira abajo)</p>
+          <div className="flex items-center justify-between mb-1">
+          <span className="!text-2xl font-bold !text-black">Mapa de problemas 😡</span> 
+          
             
             {!isAuthenticated ? (
               <Link to="/auth">
@@ -41,14 +42,15 @@ const Map = () => {
               </Link>
             )}
           </div>
+          <p className="italic text-lg text-gray-500 mb-4">
+            Haz clic en los emojis para ver los detalles de cada reporte.
+          </p>
           
           <div className="flex-1 rounded-xl overflow-hidden border border-border">
             <MapView />
           </div>
           
-          <p className="text-sm text-red-700 font-bold text-center mt-3 ">
-            Haz clic en los marcadores para ver los detalles de cada reporte
-          </p>
+
         </div>
       </motion.div>
     </div>
