@@ -12,6 +12,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { Loader2 } from "lucide-react";
 import { motion } from "framer-motion";
+import { Slider } from "@/components/ui/slider"; // Adjust the path based on your project structure
 import { supabase } from "@/supabaseClient";
 
 // Asegúrate que la ruta sea correcta
@@ -37,6 +38,23 @@ const ReportForm = () => {
   const handleMapLoad = () => {
     setIsMapLoaded(true);
   };
+
+  // Añadir esta función para obtener la etiqueta de severidad
+  const getSeverityLabel = (value: number) => {
+    switch (value) {
+      case 1:
+        return "Bajo";
+      case 2:
+        return "Medio";
+      case 3:
+        return "Alto";
+      case 4:
+        return "Crítico";
+      default:
+        return "Medio";
+    }
+  };
+
 
   useEffect(() => {
     // Solo redirigir si estamos seguros de que no está autenticado
@@ -194,17 +212,45 @@ const ReportForm = () => {
             </Card>
 
             <Card className="p-6 shadow-sm mb-2">
-              <h3 className="text-base font-medium text-muted-foreground mb-2">Descripción del problema</h3>
+              <h3 className="text-base font-medium text-muted-foreground mb-2">Descripción del Problema</h3>
               <Textarea id="description" value={description} onChange={(e) => setDescription(e.target.value)} />
             </Card>
 
-            
+
+            <Card className="p-6 shadow-sm mb-2">
+              <h3 className="text-base font-medium text-muted-foreground mb-2">
+                Nivel de Severidad
+              </h3>
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <Label className="text-base">
+                    {getSeverityLabel(severity[0])}
+                  </Label>
+                  <span className="text-sm text-muted-foreground">
+                    Nivel {severity[0]} de 4
+                  </span>
+                </div>
+                <Slider
+                  value={severity}
+                  onValueChange={setSeverity}
+                  min={1}
+                  max={4}
+                  step={1}
+                  className="w-full"
+                />
+                <div className="flex justify-between text-xs text-muted-foreground">
+                  <span>Bajo</span>
+                  <span>Medio</span>
+                  <span>Alto</span>
+                  <span>Crítico</span>
+                </div>
+              </div>
+            </Card>
 
             <Card className="p-6 shadow-sm mb-2">
 
-
               <h3 className="text-base font-medium text-muted-foreground mb-2">
-                Ubicación del problema (Clic en la ubicación exacta)
+                Ubicación del Problema (Clic en la ubicación exacta)
               </h3>
               <div className="h-[400px] w-full rounded-lg overflow-hidden border border-border">
                 <MapView 
@@ -220,7 +266,7 @@ const ReportForm = () => {
 
             <Card className="p-6 shadow-sm mb-2">
             <h3 className="text-base font-medium text-muted-foreground mb-2">
-                Subir imagen (Recomendación: en formato horizontal)
+                Subir Imagen (Recomendación: en formato horizontal)
               </h3>
               <Input type="file" accept="image/*" onChange={handleFileChange} />
               {imageUrl && <img src={imageUrl} alt="Vista previa" className="w-full h-40 object-cover rounded-lg mt-2" />}

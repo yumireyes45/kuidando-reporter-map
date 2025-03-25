@@ -6,7 +6,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 import { AuthProvider } from "@/contexts/AuthContext";
-
+import Dashboard from "@/pages/Dashboard";
 
 
 // Pages
@@ -35,6 +35,7 @@ const App = () => (
               <Route path="/map" element={<Map />} />
               <Route path="/auth" element={<Auth />} />
               <Route path="/report" element={<ReportForm />} />
+              <Route path="/dashboard" element={<Dashboard />} />
               {/* Cambiamos NotFound por Navigate para manejar rutas no encontradas */}
               <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>

@@ -57,7 +57,7 @@ interface CategorySelectorProps {
 const CategorySelector: React.FC<CategorySelectorProps> = ({ selectedCategory, onSelectCategory }) => {
   return (
     <div className="space-y-4">
-      <h3 className="text-base font-medium text-muted-foreground">¿Cuál es el problema?</h3>
+      <h3 className="text-base font-medium text-muted-foreground">¿Cuál es el Problema?</h3>
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
         {categories.map(category => (
           <motion.button

@@ -209,27 +209,31 @@ const ReportDetails = ({ reports, onSupport, currentUserId, onClose }) => {
         </div>
       </Card>
 
-      {/* Dialog para mostrar imagen completa - Movido fuera del renderImage */}
-      <Dialog open={isImageOpen} onOpenChange={setIsImageOpen}>
-      <DialogContent className="max-w-[90vw] max-h-[90vh] p-0">
-        {/* Título oculto para lectores de pantalla */}
+      {/* Dialog para mostrar imagen completa */}
+    <Dialog open={isImageOpen} onOpenChange={setIsImageOpen}>
+      <DialogContent className="max-w-[95vw] sm:max-w-[85vw] md:max-w-[75vw] lg:max-w-[65vw] h-auto p-0">
         <DialogTitle className="sr-only">
           {category?.name || "Imagen del problema"}
         </DialogTitle>
 
-        <button
-          onClick={() => setIsImageOpen(false)}
-          className="absolute top-2 right-2 z-50 p-2 rounded-full bg-black/50 hover:bg-black/70 transition-colors"
-          aria-label="Cerrar imagen"
-        >
-          <X className="h-4 w-4 text-white" />
-        </button>
-        <img 
-          src={reports.imageurl} 
-          alt={category?.name || "Imagen del problema"} 
-          className="w-full h-full object-contain"
-          loading="lazy"
-        />
+        <div className="relative w-full h-full max-h-[85vh] overflow-hidden">
+          <button
+            onClick={() => setIsImageOpen(false)}
+            className="absolute top-2 right-2 z-50 p-2 rounded-full bg-black/50 hover:bg-black/70 transition-colors"
+            aria-label="Cerrar imagen"
+          >
+            <X className="h-4 w-4 text-white" />
+          </button>
+
+          <div className="w-full h-full flex items-center justify-center bg-black/5">
+            <img 
+              src={reports.imageurl} 
+              alt={category?.name || "Imagen del problema"} 
+              className="max-w-full max-h-[80vh] object-contain"
+              loading="lazy"
+            />
+          </div>
+        </div>
       </DialogContent>
     </Dialog>
 
