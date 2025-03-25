@@ -22,20 +22,23 @@ const Map = () => {
         transition={{ duration: 0.5 }}
       >
         <div className="container max-w-6xl mx-auto px-4 py-4 md:px-6 md:py-6 h-[calc(100vh-4rem)] flex flex-col">
-          <div className="flex items-center justify-between mb-1">
-          <span className="!text-2xl font-bold !text-black">Mapa de problemas 😡</span> 
+          <div className="grid grid-cols-2 items-center justify-between mb-1">
+            <span className="!text-2xl font-bold !text-black">Mapa de problemas 😡</span> 
           
             
             {!isAuthenticated ? (
-              <Link to="/auth">
-                <Button className="button-custom gap-2" size="sm">
-                  <MapPin className="h-4 w-4" />
-                  <span>Iniciar sesión para reportar</span>
+              <Link to="/auth" className="mt-7 flex justify-end">
+                <Button className="button-custom gap-2 font-bold min-h-[40px] whitespace-normal text-sm md:text-base" size="sm">
+                  <Plus className="h-4 w-4" />
+                  <span className="hidden md:inline">Iniciar sesión para reportar</span>
+                  <span className="md:hidden">
+                    Iniciar sesión<br />para reportar
+                  </span>
                 </Button>
               </Link>
             ) : (
-              <Link to="/report">
-                <Button className="gap-2" size="sm">
+              <Link to="/report" className="mt-7 flex justify-end">
+                <Button className="button-custom gap-2 font-bold" size="sm">
                   <Plus className="h-4 w-4" />
                   <span>Nuevo reporte</span>
                 </Button>

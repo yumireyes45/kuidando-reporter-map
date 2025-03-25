@@ -187,23 +187,3 @@
   }
 }
 
-/* Estilos para el autocompletado de Google Maps */
-.pac-container {
-  @apply bg-white rounded-lg border border-gray-200 shadow-lg mt-1 z-[9999];
-}
-
-.pac-item {
-  @apply p-2 cursor-pointer hover:bg-gray-50 transition-colors;
-}
-
-.pac-item-query {
-  @apply text-sm text-gray-900;
-}
-
-.pac-matched {
-  @apply font-medium;
-}
-
-.pac-icon {
-  @apply mr-2;
-}

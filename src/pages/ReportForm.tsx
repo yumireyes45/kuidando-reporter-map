@@ -204,7 +204,7 @@ const ReportForm = () => {
       <motion.div className="flex-1 pt-14 pb-10" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }}>
         <div className="container max-w-5xl mx-auto px-4 py-6 md:px-6">
 
-          <div className="flex items-center gap-4 ">
+          <div className="flex items-center gap-4 mb-1">
             <Button
               variant="ghost"
               size="icon"

@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { MapPin, Menu, X, User, LogOut, Map as MapIcon, Annoyed } from "lucide-react";
+import { MapPin, Menu, X, User, LogOut, Map as MapIcon, Annoyed, MessageCirclePlus, Plus } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -80,8 +80,8 @@ export const Navbar: React.FC = () => {
           <div className="hidden md:flex items-center space-x-6">
             <Link 
               to="/map" 
-              className={`transition-colors hover:text-primary font-bold ${
-                location.pathname === "/map" ? "text-primary font-bold " : ""
+              className={`transition-colors hover:text-amber-600 font-semibold ${
+                location.pathname === "/map" ? "text-amber-600 " : ""
               }`}
             >
               <div className="flex items-center justify-center gap-2">
@@ -94,8 +94,8 @@ export const Navbar: React.FC = () => {
               <>
                 <Link 
                   to="/dashboard" 
-                  className={`transition-colors hover:text-primary font-bold ${
-                    location.pathname === "/dashboard" ? "text-primary font-bold " : ""
+                  className={`transition-colors hover:text-amber-600 font-semibold ${
+                    location.pathname === "/dashboard" ? "text-amber-600 " : ""
                   }`}
                 >
                   <div className="flex items-center justify-center gap-2">
@@ -111,10 +111,20 @@ export const Navbar: React.FC = () => {
                   <span className="font-medium">{user?.email}</span>
                 </div>
 
+                <Link to="/report">
+                  <Button variant="outline" size="sm"
+                  className="flex items-center gap-2 hover:bg-amber-400 hover:text-black transition-colors">
+                    <Plus className="w-4 h-4" />
+                    <span>Nuevo Reporte</span>
+                  </Button>
+                </Link>
+
                 <Button variant="outline" size="sm" onClick={logout} className="flex items-center gap-2">
                   <LogOut className="w-4 h-4" />
                   <span>Cerrar sesión</span>
                 </Button>
+
+
 
               </>
             ) : (
@@ -129,7 +139,7 @@ export const Navbar: React.FC = () => {
 
           {/* Mobile menu button */}
           <div className="md:hidden">
-            <Button variant="ghost" size="icon" onClick={toggleMenu}>
+            <Button variant="ghost" size="icon" onClick={toggleMenu} className="hover:bg-amber-400 hover:text-black transition-colors">
               {isOpen ? (
                 <X className="h-6 w-6" />
               ) : (
@@ -153,12 +163,12 @@ export const Navbar: React.FC = () => {
             <div className="px-4 py-5 space-y-4">
               <Link 
                 to="/map" 
-                className={`block transition-colors hover:text-primary font-bold ${
-                  location.pathname === "/map" ? "text-primary font-bold " : ""
+                className={`block transition-colors hover:text-amber-600 font-semibold ${
+                  location.pathname === "/map" ? "text-amber-600 " : ""
                 }`}
                 onClick={closeMenu}
               >
-                <div className="flex items-center justify-center gap-2 font-bold mb-2">
+                <div className="flex items-center justify-center gap-2 mb-2">
                   <MapIcon className="w-5 h-5" />
                   <span>Mapa</span>
                 </div>
@@ -168,21 +178,33 @@ export const Navbar: React.FC = () => {
                 <>
                   <Link 
                     to="/dashboard" 
-                    className={`block transition-colors hover:text-primary font-bold ${
-                      location.pathname === "/dashboard" ? "text-primary font-bold " : ""
+                    className={`block transition-colors hover:text-amber-600 font-semibold ${
+                      location.pathname === "/dashboard" ? "text-amber-600 " : ""
                     }`}
                   >
-                    <div className="flex items-center justify-center gap-2">
+                    <div className="flex items-center justify-center gap-2 ">
                         <Annoyed className="w-5 h-5" />
                         <span>Ver Reportes</span>
                     </div>
                   </Link>
-                  <div className="flex items-center justify-center space-x-3 py-2">
+
+
+                  <div className="flex items-center justify-center space-x-3 py-2 pb-3">
                     <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center text-primary">
                       {user?.email.charAt(0).toUpperCase()}
                     </div>
                     <span className="font-medium">{user?.email}</span>
                   </div>
+
+                  <Link to="/report">
+                    <Button variant="outline" size="sm"
+                    className="w-full justify-center flex items-center gap-2 bg-amber-400 text-black h-10">
+                      <Plus className="w-4 h-4" />
+                      <span>Nuevo Reporte</span>
+                    </Button>
+                  </Link>
+
+
                   <Button 
                     variant="outline" 
                     className="w-full justify-center flex items-center gap-2"
