@@ -133,7 +133,7 @@ export const EditReportDialog: React.FC<EditReportDialogProps> = ({
         <Dialog open={true} onOpenChange={onClose}>
           <DialogContent className="max-w-3xl h-[85vh] p-0 rounded-lg">
             <DialogHeader className="px-6 pt-6">
-              <DialogTitle><h1 className="text-2xl">Editar Reporte</h1></DialogTitle>
+              <DialogTitle><span className="text-2xl">Editar Reporte</span></DialogTitle>
             </DialogHeader>
     
             <div className="px-6 pb-6 overflow-y-auto h-[calc(85vh-120px)] ">

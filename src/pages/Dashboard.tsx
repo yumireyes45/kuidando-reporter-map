@@ -47,8 +47,8 @@ const Dashboard = () => {
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
-      <div className="flex-1 container max-w-7xl mx-auto px-4 py-8">
-        <h1 className="text-3xl font-bold mb-8">Dashboard</h1>
+      <div className="container max-w-6xl mx-auto px-4 py-4 md:px-6 md:py-6 h-[calc(100vh-4rem)] flex flex-col">
+        <h1 className="text-2xl font-bold mb-6 mt-16">Sección de Reportes 😯</h1>
         
         <Tabs defaultValue="my-reports" className="w-full">
           <TabsList className="grid w-full grid-cols-2 mb-8">

@@ -201,22 +201,22 @@ const ReportForm = () => {
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
-      <motion.div className="flex-1 pt-16 pb-10" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }}>
+      <motion.div className="flex-1 pt-14 pb-10" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }}>
         <div className="container max-w-5xl mx-auto px-4 py-6 md:px-6">
 
-        <div className="flex items-center gap-4 ">
+          <div className="flex items-center gap-4 ">
             <Button
               variant="ghost"
               size="icon"
               className="bg-background/50 hover:bg-primary"
               onClick={() => navigate('/map')}
             >
-              <ArrowLeft className="h-8 w-8" />
+              <ArrowLeft className="!h-5 !w-5" />
               <span className="sr-only">Volver al mapa</span>
             </Button>
-            </div>
+          </div>
 
-            <p className="text-xl text-gray-500 mb-3 text-center">
+            <p className="text-xl text-gray-500 mb-3 pl-5">
               <span className="text-2xl font-bold mb-4 !text-black">Reporta un problema 🫡
                 </span> Tranqui, será 100% anónimo :)
             </p>
